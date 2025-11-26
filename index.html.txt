@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>১.৫% সহ মোট পেমেন্ট</title>
+  <style>
+    body { font-family: Arial; max-width: 600px; margin: 40px auto; padding: 0 20px; }
+    input { width:100%; padding:10px; margin-top:10px; font-size:16px; }
+    button { padding:10px 15px; margin-top:10px; font-size:16px; cursor:pointer; }
+    .result { margin-top:15px; font-size:20px; font-weight:bold; }
+  </style>
+</head>
+<body>
+  <h2>১.৫০% যোগ হয়ে মোট কত পে করতে হবে</h2>
+
+  <label>এমাউন্ট লিখুন:</label>
+  <input id="amount" type="number" placeholder="উদাহরণ: 1000" />
+
+  <button onclick="calc()">Calculate</button>
+
+  <div id="output" class="result"></div>
+
+  <script>
+    function calc() {
+      let amount = parseFloat(document.getElementById('amount').value);
+      if (isNaN(amount) || amount < 0) {
+        document.getElementById('output').innerHTML = "সঠিক এমাউন্ট দিন";
+        return;
+      }
+
+      let payable = amount * 1.015; // 1.50% যোগ করা
+      payable = payable.toFixed(2);
+
+      document.getElementById('output').innerHTML =
+        "মোট পেমেন্ট দিতে হবে: " + payable + " টাকা";
+    }
+  </script>
+</body>
+</html>
