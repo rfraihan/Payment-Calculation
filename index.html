@@ -12,6 +12,7 @@
       margin: 0;
       padding: 0;
     }
+
     .container {
       max-width: 650px;
       background: white;
@@ -20,25 +21,32 @@
       border-radius: 12px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     }
+
     h2 {
       text-align: center;
       color: #333;
       margin-bottom: 25px;
     }
+
     label {
       font-weight: bold;
       margin-top: 12px;
       display: block;
     }
+
+    /* Input & Select same size */
     input, select {
       width: 100%;
-      padding: 12px;
+      height: 46px;               /* Same size for both */
+      padding: 0 12px;
       margin-top: 6px;
       margin-bottom: 12px;
       border-radius: 8px;
       border: 1px solid #ccc;
       font-size: 15px;
+      box-sizing: border-box;
     }
+
     button {
       width: 100%;
       background: #0066ff;
@@ -52,6 +60,7 @@
       font-weight: bold;
       transition: 0.3s;
     }
+
     button:hover {
       background: #0053d6;
     }
@@ -64,8 +73,10 @@
       font-size: 18px;
       line-height: 1.6;
       border-left: 4px solid #0066ff;
+      white-space: pre-line;
     }
 
+    /* copy animation */
     .copied {
       background: #1f8c39 !important;
       color: #fff !important;
@@ -78,6 +89,7 @@
       font-size: 15px;
       color: #444;
     }
+
     .credit a {
       text-decoration: none;
       color: #0066ff;
@@ -86,6 +98,7 @@
       align-items: center;
       gap: 6px;
     }
+
     .fb-icon {
       width: 18px;
       height: 18px;
@@ -97,6 +110,7 @@
 <body>
 
 <div class="container">
+
   <h2>১.৫০% বা হাজারে ১৫৳ চার্জ যোগ হয়ে মোট কত পেমেন্ট করতে হবে সেটার ক্যালকুলেশন</h2>
 
   <label>ডলার এমাউন্ট:</label>
@@ -140,6 +154,7 @@ function formatBDT(num) {
     rest = rest.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
     return rest + "," + lastThree;
   }
+
   return lastThree;
 }
 
@@ -163,13 +178,7 @@ function calc() {
   let payable = taka * 1.015;
 
   let decimalPart = payable - Math.floor(payable);
-  let finalPayable;
-
-  if (decimalPart >= 0.30) {
-    finalPayable = Math.ceil(payable);
-  } else {
-    finalPayable = Math.floor(payable);
-  }
+  let finalPayable = (decimalPart >= 0.30) ? Math.ceil(payable) : Math.floor(payable);
 
   let summaryText =
     "আপনার মোট বিলঃ " + usd + "$ × " + rate +
@@ -183,7 +192,6 @@ function calc() {
 
   document.getElementById("copyBtn").style.display = "block";
 }
-
 
 function copySummary() {
   let text = document.getElementById("summary").innerText;
