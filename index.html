@@ -2,23 +2,89 @@
 <html lang="bn">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title> ১.৫০% বা হাজারে ১৫৳ চার্জ যোগ হয়ে মোট কত পেমেন্ট করতে হবে সেটার ক্যালকুলেশন</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Payment Calculator</title>
+
   <style>
-    body { font-family: Arial; max-width: 600px; margin: 40px auto; padding: 0 20px; }
-    input, select { width:100%; padding:10px; margin-top:10px; font-size:16px; }
-    button { padding:10px 15px; margin-top:10px; font-size:16px; cursor:pointer; }
-    .result { margin-top:15px; font-size:20px; font-weight:bold; }
-    .summary { margin-top:20px; background:#f7f7f7; padding:15px; border-radius:10px; line-height:1.6; font-size:16px; }
+    body {
+      font-family: Arial;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 650px;
+      background: white;
+      margin: 40px auto;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 25px;
+    }
+    label {
+      font-weight: bold;
+      margin-top: 12px;
+      display: block;
+    }
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      margin-bottom: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+    button {
+      width: 100%;
+      background: #0066ff;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 17px;
+      cursor: pointer;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    button:hover {
+      background: #0053d6;
+    }
+
+    .result-box {
+      background: #f7f8fa;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 18px;
+      font-size: 18px;
+      line-height: 1.6;
+      border-left: 4px solid #0066ff;
+      position: relative;
+    }
+
+    #copyBtn {
+      background: #28a745;
+      margin-top: 10px;
+    }
+    #copyBtn:hover {
+      background: #1f8c39;
+    }
   </style>
 </head>
+
 <body>
-  <h2>Dollar থেকে মোট পেমেন্ট (Dollar × Rate + 1.50%)</h2>
 
-  <label>ডলার এমাউন্ট লিখুন:</label>
-  <input id="usd" type="number" placeholder="উদাহরণ: 10" />
+<div class="container">
+  <h2>১.৫০% বা হাজারে ১৫৳ চার্জ যোগ হয়ে মোট কত পেমেন্ট করতে হবে সেটার ক্যালকুলেশন</h2>
 
-  <label>রেট সিলেক্ট করুন:</label>
+  <label>ডলার এমাউন্ট:</label>
+  <input id="usd" type="number" placeholder="উদাহরণ: 10">
+
+  <label>রেইট সিলেক্ট করুন:</label>
   <select id="rate">
     <option value="142">142</option>
     <option value="145">145</option>
@@ -27,47 +93,60 @@
 
   <button onclick="calc()">Calculate</button>
 
-  <div id="output" class="result"></div>
-  <div id="summary" class="summary"></div>
+  <div id="summary" class="result-box" style="display:none;"></div>
+  <button id="copyBtn" style="display:none;" onclick="copySummary()">কপি করুন</button>
 
-  <script>
-    function calc() {
-      let usd = parseFloat(document.getElementById('usd').value);
-      let rate = parseFloat(document.getElementById('rate').value);
+</div>
 
-      if (isNaN(usd) || usd <= 0) {
-        document.getElementById('output').innerHTML = "সঠিক ডলার এমাউন্ট দিন";
-        return;
-      }
 
-      // Dollar × Rate
-      let taka = usd * rate;
+<script>
+function calc() {
+  let usd = parseFloat(document.getElementById('usd').value);
+  let rate = parseFloat(document.getElementById('rate').value);
 
-      // 1.50% যোগ
-      let payable = taka * 1.015;
+  if (isNaN(usd) || usd <= 0) {
+    alert("সঠিক ডলার এমাউন্ট দিন");
+    return;
+  }
 
-      // দশমিক অংশ বের করা
-      let decimalPart = payable - Math.floor(payable);
-      let finalPayable;
+  // Dollar × Rate
+  let taka = usd * rate;
 
-      // কাস্টম রাউন্ডিং রুল
-      if (decimalPart >= 0.30) {
-        finalPayable = Math.ceil(payable);
-      } else {
-        finalPayable = Math.floor(payable);
-      }
+  // 1.50% যোগ
+  let payable = taka * 1.015;
 
-      // আউটপুট দেখানো
-      document.getElementById('output').innerHTML =
-        "মোট পেমেন্ট দিতে হবে: " + finalPayable + " টাকা";
+  // দশমিক অংশ
+  let decimalPart = payable - Math.floor(payable);
+  let finalPayable;
 
-      // সামারি টেক্সট
-      document.getElementById('summary').innerHTML =
-        "<b>সামারি:</b><br>" +
-        "আপনার মোট বিলঃ " + usd + "$ × " + rate +
-        " + 1.50% = <b>" + finalPayable + " টাকা</b><br><br>" +
-        "নিম্নোক্ত বিকাশ নাম্বারে সেন্ড মানি/ক্যাশ ইন করে জানাবেন কাইন্ডলি।";
-    }
-  </script>
+  // কাস্টম রাউন্ডিং রুল
+  if (decimalPart >= 0.30) {
+    finalPayable = Math.ceil(payable);
+  } else {
+    finalPayable = Math.floor(payable);
+  }
+
+  // Summary text
+  let summaryText =
+    "আপনার মোট বিলঃ " + usd + "$ × " + rate +
+    " + 1.50% = " + finalPayable + " টাকা\n\n" +
+    "নিম্নোক্ত বিকাশ পার্সোনাল নাম্বারে সেন্ড মানি/ক্যাশ ইন করে জানাবেন কাইন্ডলি:\n" +
+    "01817316412";
+
+  let summaryDiv = document.getElementById("summary");
+  summaryDiv.innerText = summaryText;
+  summaryDiv.style.display = "block";
+
+  document.getElementById("copyBtn").style.display = "block";
+}
+
+// Copy function
+function copySummary() {
+  let text = document.getElementById("summary").innerText;
+  navigator.clipboard.writeText(text);
+  alert("মোট বিল কপি করা হয়েছে!");
+}
+</script>
+
 </body>
 </html>
