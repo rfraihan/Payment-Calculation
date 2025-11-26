@@ -50,6 +50,7 @@
       cursor: pointer;
       margin-top: 10px;
       font-weight: bold;
+      transition: 0.3s;
     }
     button:hover {
       background: #0053d6;
@@ -66,12 +67,10 @@
       position: relative;
     }
 
-    #copyBtn {
-      background: #28a745;
-      margin-top: 10px;
-    }
-    #copyBtn:hover {
-      background: #1f8c39;
+    /* Copy animation class */
+    .copied {
+      background: #1f8c39 !important;
+      color: #fff !important;
     }
   </style>
 </head>
@@ -148,11 +147,24 @@ function calc() {
   document.getElementById("copyBtn").style.display = "block";
 }
 
-// Copy function
+// Copy animation
 function copySummary() {
   let text = document.getElementById("summary").innerText;
   navigator.clipboard.writeText(text);
-  alert("মোট বিল কপি করা হয়েছে!");
+
+  let btn = document.getElementById("copyBtn");
+
+  // বাটনের টেক্সট পরিবর্তন
+  btn.innerText = "✔ কপি হয়েছে";
+
+  // স্টাইল যোগ
+  btn.classList.add("copied");
+
+  // ১.৮ সেকেন্ড পর আগের অবস্থায় ফিরে যাবে
+  setTimeout(() => {
+    btn.innerText = "ক্লায়েন্টকে দেওয়ার জন্য কপি করুন";
+    btn.classList.remove("copied");
+  }, 1800);
 }
 </script>
 
