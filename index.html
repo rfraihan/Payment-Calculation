@@ -3,51 +3,70 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>১.৫% সহ মোট পেমেন্ট</title>
+  <title>Dollar + 1.5% Payment Calculator</title>
   <style>
     body { font-family: Arial; max-width: 600px; margin: 40px auto; padding: 0 20px; }
-    input { width:100%; padding:10px; margin-top:10px; font-size:16px; }
+    input, select { width:100%; padding:10px; margin-top:10px; font-size:16px; }
     button { padding:10px 15px; margin-top:10px; font-size:16px; cursor:pointer; }
     .result { margin-top:15px; font-size:20px; font-weight:bold; }
+    .summary { margin-top:20px; background:#f7f7f7; padding:15px; border-radius:10px; line-height:1.6; font-size:16px; }
   </style>
 </head>
 <body>
-  <h2>১.৫০% বা হাজারে ১৫৳ চার্জ যোগ হয়ে মোট কত পেমেন্ট করতে হবে সেটার ক্যালকুলেশন</h2>
+  <h2>Dollar থেকে মোট পেমেন্ট (Dollar × Rate + 1.50%)</h2>
 
-  <label>এমাউন্ট লিখুন:</label>
-  <input id="amount" type="number" placeholder="উদাহরণ: 1000" />
+  <label>ডলার এমাউন্ট লিখুন:</label>
+  <input id="usd" type="number" placeholder="উদাহরণ: 10" />
+
+  <label>রেট সিলেক্ট করুন:</label>
+  <select id="rate">
+    <option value="142">142</option>
+    <option value="145">145</option>
+    <option value="147">147</option>
+  </select>
 
   <button onclick="calc()">Calculate</button>
 
   <div id="output" class="result"></div>
+  <div id="summary" class="summary"></div>
 
   <script>
     function calc() {
-      let amount = parseFloat(document.getElementById('amount').value);
-      if (isNaN(amount) || amount < 0) {
-        document.getElementById('output').innerHTML = "সঠিক এমাউন্ট দিন";
+      let usd = parseFloat(document.getElementById('usd').value);
+      let rate = parseFloat(document.getElementById('rate').value);
+
+      if (isNaN(usd) || usd <= 0) {
+        document.getElementById('output').innerHTML = "সঠিক ডলার এমাউন্ট দিন";
         return;
       }
 
+      // Dollar × Rate
+      let taka = usd * rate;
+
       // 1.50% যোগ
-      let payable = amount * 1.015;
+      let payable = taka * 1.015;
 
       // দশমিক অংশ বের করা
       let decimalPart = payable - Math.floor(payable);
-
       let finalPayable;
 
-      // আপনার কাস্টম রাউন্ডিং নিয়ম:
-      // .30 বা তার বেশি → পরের পূর্ণ সংখ্যা
-      // .30 এর কম → নিচের পূর্ণ সংখ্যা
+      // কাস্টম রাউন্ডিং রুল
       if (decimalPart >= 0.30) {
         finalPayable = Math.ceil(payable);
       } else {
         finalPayable = Math.floor(payable);
       }
 
+      // আউটপুট দেখানো
       document.getElementById('output').innerHTML =
         "মোট পেমেন্ট দিতে হবে: " + finalPayable + " টাকা";
+
+      // সামারি টেক্সট
+      document.getElementById('summary').innerHTML =
+        "<b>সামারি:</b><br>" +
+        "আপনার মোট বিলঃ " + usd + "$ × " + rate +
+        " + 1.50% = <b>" + finalPayable + " টাকা</b><br><br>" +
+        "নিম্নোক্ত বিকাশ নাম্বারে সেন্ড মানি/ক্যাশ ইন করে জানাবেন কাইন্ডলি।";
     }
   </script>
 </body>
