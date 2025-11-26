@@ -66,10 +66,30 @@
       border-left: 4px solid #0066ff;
     }
 
-    /* Copy animation class */
     .copied {
       background: #1f8c39 !important;
       color: #fff !important;
+    }
+
+    /* Credit Section */
+    .credit {
+      text-align: center;
+      margin-top: 35px;
+      font-size: 15px;
+      color: #444;
+    }
+    .credit a {
+      text-decoration: none;
+      color: #0066ff;
+      font-weight: bold;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .fb-icon {
+      width: 18px;
+      height: 18px;
+      fill: #0066ff;
     }
   </style>
 </head>
@@ -95,12 +115,22 @@
   <div id="summary" class="result-box" style="display:none;"></div>
   <button id="copyBtn" style="display:none;" onclick="copySummary()">ক্লায়েন্টকে দেওয়ার জন্য কপি করুন</button>
 
+  <!-- Credit Section -->
+  <div class="credit">
+    Created by 
+    <a href="https://www.facebook.com/readuanfaiz" target="_blank">
+      Readuan Faiz
+      <svg class="fb-icon" viewBox="0 0 24 24">
+        <path d="M22.675 0h-21.35C.597 0 0 .598 0 1.333v21.333C0 23.403.597 24 1.325 24h11.495v-9.294H9.691v-3.622h3.129V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.098 2.795.142v3.24l-1.918.001c-1.504 0-1.794.715-1.794 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116C23.403 24 24 23.403 24 22.667V1.333C24 .598 23.403 0 22.675 0z"/>
+      </svg>
+    </a>
+  </div>
+
 </div>
 
 
 <script>
 
-// Bengali/Indian comma formatting function
 function formatBDT(num) {
   num = Math.floor(num).toString();
   let lastThree = num.slice(-3);
@@ -129,24 +159,18 @@ function calc() {
 
   rate = parseFloat(rate);
 
-  // Dollar × Rate
   let taka = usd * rate;
-
-  // 1.50% যোগ
   let payable = taka * 1.015;
 
-  // দশমিক অংশ
   let decimalPart = payable - Math.floor(payable);
   let finalPayable;
 
-  // কাস্টম রাউন্ডিং রুল
   if (decimalPart >= 0.30) {
     finalPayable = Math.ceil(payable);
   } else {
     finalPayable = Math.floor(payable);
   }
 
-  // Summary text (with comma formatting)
   let summaryText =
     "আপনার মোট বিলঃ " + usd + "$ × " + rate +
     " + 1.50% = " + formatBDT(finalPayable) + " টাকা\n\n" +
@@ -161,20 +185,14 @@ function calc() {
 }
 
 
-// Copy animation
 function copySummary() {
   let text = document.getElementById("summary").innerText;
   navigator.clipboard.writeText(text);
 
   let btn = document.getElementById("copyBtn");
-
-  // বাটনের টেক্সট পরিবর্তন
   btn.innerText = "✔ কপি হয়েছে";
-
-  // স্টাইল যোগ
   btn.classList.add("copied");
 
-  // ১.৮ সেকেন্ড পর আগের অবস্থায় ফিরে যাবে
   setTimeout(() => {
     btn.innerText = "ক্লায়েন্টকে দেওয়ার জন্য কপি করুন";
     btn.classList.remove("copied");
