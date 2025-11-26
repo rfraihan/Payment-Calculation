@@ -86,6 +86,7 @@
 
   <label>রেইট সিলেক্ট করুন:</label>
   <select id="rate">
+    <option value="" disabled selected>রেইট সিলেক্ট করুন</option>
     <option value="142">142</option>
     <option value="145">145</option>
     <option value="147">147</option>
@@ -94,7 +95,7 @@
   <button onclick="calc()">Calculate</button>
 
   <div id="summary" class="result-box" style="display:none;"></div>
-  <button id="copyBtn" style="display:none;" onclick="copySummary()">কপি করুন</button>
+  <button id="copyBtn" style="display:none;" onclick="copySummary()">ক্লায়েন্টকে দেওয়ার জন্য কপি করুন</button>
 
 </div>
 
@@ -102,12 +103,19 @@
 <script>
 function calc() {
   let usd = parseFloat(document.getElementById('usd').value);
-  let rate = parseFloat(document.getElementById('rate').value);
+  let rate = document.getElementById('rate').value;
 
   if (isNaN(usd) || usd <= 0) {
     alert("সঠিক ডলার এমাউন্ট দিন");
     return;
   }
+
+  if (!rate) {
+    alert("রেইট সিলেক্ট করুন");
+    return;
+  }
+
+  rate = parseFloat(rate);
 
   // Dollar × Rate
   let taka = usd * rate;
