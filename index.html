@@ -64,7 +64,6 @@
       font-size: 18px;
       line-height: 1.6;
       border-left: 4px solid #0066ff;
-      position: relative;
     }
 
     /* Copy animation class */
@@ -100,6 +99,20 @@
 
 
 <script>
+
+// Bengali/Indian comma formatting function
+function formatBDT(num) {
+  num = Math.floor(num).toString();
+  let lastThree = num.slice(-3);
+  let rest = num.slice(0, -3);
+
+  if (rest !== "") {
+    rest = rest.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
+    return rest + "," + lastThree;
+  }
+  return lastThree;
+}
+
 function calc() {
   let usd = parseFloat(document.getElementById('usd').value);
   let rate = document.getElementById('rate').value;
@@ -133,10 +146,10 @@ function calc() {
     finalPayable = Math.floor(payable);
   }
 
-  // Summary text
+  // Summary text (with comma formatting)
   let summaryText =
     "আপনার মোট বিলঃ " + usd + "$ × " + rate +
-    " + 1.50% = " + finalPayable + " টাকা\n\n" +
+    " + 1.50% = " + formatBDT(finalPayable) + " টাকা\n\n" +
     "নিম্নোক্ত বিকাশ পার্সোনাল নাম্বারে সেন্ড মানি/ক্যাশ ইন করে জানাবেন কাইন্ডলি:\n" +
     "01817316412";
 
@@ -146,6 +159,7 @@ function calc() {
 
   document.getElementById("copyBtn").style.display = "block";
 }
+
 
 // Copy animation
 function copySummary() {
@@ -166,6 +180,7 @@ function copySummary() {
     btn.classList.remove("copied");
   }, 1800);
 }
+
 </script>
 
 </body>
