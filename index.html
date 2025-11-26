@@ -12,7 +12,7 @@
   </style>
 </head>
 <body>
-  <h2>১.৫০% যোগ হয়ে মোট কত পে করতে হবে</h2>
+  <h2>১.৫০% বা হাজারে ১৫৳ চার্জ যোগ হয়ে মোট কত পেমেন্ট করতে হবে সেটার ক্যালকুলেশন</h2>
 
   <label>এমাউন্ট লিখুন:</label>
   <input id="amount" type="number" placeholder="উদাহরণ: 1000" />
@@ -29,11 +29,25 @@
         return;
       }
 
-      let payable = amount * 1.015; // 1.50% যোগ করা
-      payable = payable.toFixed(2);
+      // 1.50% যোগ
+      let payable = amount * 1.015;
+
+      // দশমিক অংশ বের করা
+      let decimalPart = payable - Math.floor(payable);
+
+      let finalPayable;
+
+      // আপনার কাস্টম রাউন্ডিং নিয়ম:
+      // .30 বা তার বেশি → পরের পূর্ণ সংখ্যা
+      // .30 এর কম → নিচের পূর্ণ সংখ্যা
+      if (decimalPart >= 0.30) {
+        finalPayable = Math.ceil(payable);
+      } else {
+        finalPayable = Math.floor(payable);
+      }
 
       document.getElementById('output').innerHTML =
-        "মোট পেমেন্ট দিতে হবে: " + payable + " টাকা";
+        "মোট পেমেন্ট দিতে হবে: " + finalPayable + " টাকা";
     }
   </script>
 </body>
