@@ -37,7 +37,7 @@
     /* Input & Select same size */
     input, select {
       width: 100%;
-      height: 46px;               /* Same size for both */
+      height: 46px;
       padding: 0 12px;
       margin-top: 6px;
       margin-bottom: 12px;
@@ -76,13 +76,11 @@
       white-space: pre-line;
     }
 
-    /* copy animation */
     .copied {
       background: #1f8c39 !important;
       color: #fff !important;
     }
 
-    /* Credit Section */
     .credit {
       text-align: center;
       margin-top: 35px;
@@ -129,7 +127,6 @@
   <div id="summary" class="result-box" style="display:none;"></div>
   <button id="copyBtn" style="display:none;" onclick="copySummary()">ক্লায়েন্টকে দেওয়ার জন্য কপি করুন</button>
 
-  <!-- Credit Section -->
   <div class="credit">
     Developed by 
     <a href="https://www.facebook.com/readuanfaiz" target="_blank">
@@ -184,7 +181,19 @@ function calc() {
     "আপনার মোট বিলঃ " + usd + "$ × " + rate +
     " + 1.50% = " + formatBDT(finalPayable) + " টাকা\n\n" +
     "ডলার নেওয়ার জন্য নিম্নোক্ত বিকাশ পার্সোনাল নাম্বারে সেন্ড মানি/ক্যাশ ইন করে জানাবেন কাইন্ডলি:\n" +
-    "01817316412";
+    "01817316412\n\n" +
+
+    "অথবা চাইলে ব্যাংকে পেমেন্ট করতে পারবেন কোনো চার্জ ছাড়াই।\n" +
+    "সেক্ষেত্রে আপনার মোট বিল হবেঃ " + usd + "$ × " + rate +
+    " + 1.50% = " + formatBDT(finalPayable) + " টাকা\n\n" +
+
+    "Eastern Bank PLC.\n" +
+    "A/C No- 0021440006618\n" +
+    "Name- Readuan Faiz\n" +
+    "Branch- Khatungonj\n" +
+    "District: Chittagong\n" +
+    "Routing No- 095154279\n\n" +
+    "For Instant Transaction, please use 'NPSB' channel.";
 
   let summaryDiv = document.getElementById("summary");
   summaryDiv.innerText = summaryText;
@@ -192,6 +201,7 @@ function calc() {
 
   document.getElementById("copyBtn").style.display = "block";
 }
+
 
 function copySummary() {
   let text = document.getElementById("summary").innerText;
