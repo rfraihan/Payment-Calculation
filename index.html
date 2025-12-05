@@ -22,11 +22,7 @@
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     }
 
-    h2 {
-      text-align: center;
-      color: #333;
-      margin-bottom: 25px;
-    }
+    h2 { text-align: center; color: #333; margin-bottom: 25px; }
 
     label {
       font-weight: bold;
@@ -34,7 +30,6 @@
       display: block;
     }
 
-    /* Input & Select same size */
     input, select {
       width: 100%;
       height: 46px;
@@ -61,9 +56,7 @@
       transition: 0.3s;
     }
 
-    button:hover {
-      background: #0053d6;
-    }
+    button:hover { background: #0053d6; }
 
     .result-box {
       background: #f7f8fa;
@@ -79,28 +72,6 @@
     .copied {
       background: #1f8c39 !important;
       color: #fff !important;
-    }
-
-    .credit {
-      text-align: center;
-      margin-top: 35px;
-      font-size: 15px;
-      color: #444;
-    }
-
-    .credit a {
-      text-decoration: none;
-      color: #0066ff;
-      font-weight: bold;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .fb-icon {
-      width: 18px;
-      height: 18px;
-      fill: #0066ff;
     }
   </style>
 </head>
@@ -120,27 +91,32 @@
     <option value="142">142</option>
     <option value="145">145</option>
     <option value="147">147</option>
+    <option value="custom">Custom Rate</option>
   </select>
+
+  <!-- Custom Rate Input Box -->
+  <div id="customBox" style="display:none;">
+    <label>Custom রেইট দিন:</label>
+    <input id="customRate" type="number" placeholder="যেমনঃ 148">
+  </div>
 
   <button onclick="calc()">Calculate</button>
 
   <div id="summary" class="result-box" style="display:none;"></div>
   <button id="copyBtn" style="display:none;" onclick="copySummary()">ক্লায়েন্টকে দেওয়ার জন্য কপি করুন</button>
 
-  <div class="credit">
-    Developed by 
-    <a href="https://www.facebook.com/readuanfaiz" target="_blank">
-      Readuan Faiz
-      <svg class="fb-icon" viewBox="0 0 24 24">
-        <path d="M22.675 0h-21.35C.597 0 0 .598 0 1.333v21.333C0 23.403.597 24 1.325 24h11.495v-9.294H9.691v-3.622h3.129V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.098 2.795.142v3.24l-1.918.001c-1.504 0-1.794.715-1.794 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116C23.403 24 24 23.403 24 22.667V1.333C24 .598 23.403 0 22.675 0z"/>
-      </svg>
-    </a>
-  </div>
-
 </div>
 
 
 <script>
+
+document.getElementById("rate").addEventListener("change", function(){
+  if(this.value === "custom"){
+    document.getElementById("customBox").style.display = "block";
+  } else {
+    document.getElementById("customBox").style.display = "none";
+  }
+});
 
 function formatBDT(num) {
   num = Math.floor(num).toString();
@@ -151,29 +127,37 @@ function formatBDT(num) {
     rest = rest.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
     return rest + "," + lastThree;
   }
-
   return lastThree;
 }
 
 function calc() {
   let usd = parseFloat(document.getElementById('usd').value);
-  let rate = document.getElementById('rate').value;
+  let rateVal = document.getElementById('rate').value;
+  let customRate = document.getElementById('customRate').value;
 
-  if (isNaN(usd) || usd <= 0) {
+  if(isNaN(usd) || usd<=0){
     alert("সঠিক ডলার এমাউন্ট দিন");
     return;
   }
 
-  if (!rate) {
+  if(!rateVal){
     alert("রেইট সিলেক্ট করুন");
     return;
   }
 
-  rate = parseFloat(rate);
+  // Custom rate priority
+  if(rateVal === "custom"){
+    if(!customRate || parseFloat(customRate)<=0){
+      alert("Custom রেইট সঠিকভাবে দিন");
+      return;
+    }
+    rate = parseFloat(customRate);
+  } else {
+    rate = parseFloat(rateVal);
+  }
 
   let taka = usd * rate;
   let payable = taka * 1.015;
-
   let decimalPart = payable - Math.floor(payable);
   let finalPayable = (decimalPart >= 0.30) ? Math.ceil(payable) : Math.floor(payable);
 
@@ -201,7 +185,6 @@ function calc() {
 
   document.getElementById("copyBtn").style.display = "block";
 }
-
 
 function copySummary() {
   let text = document.getElementById("summary").innerText;
