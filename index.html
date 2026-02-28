@@ -80,7 +80,7 @@
 
 <div class="container">
 
-  <h2>১.৫০% বা হাজারে ১৫৳ চার্জ যোগ হয়ে মোট কত পেমেন্ট করতে হবে সেটার ক্যালকুলেশন</h2>
+  <h2>১.২০% বা হাজারে ১২৳ চার্জ যোগ হয়ে মোট কত পেমেন্ট করতে হবে সেটার ক্যালকুলেশন</h2>
 
   <label>ডলার এমাউন্ট:</label>
   <input id="usd" type="number" placeholder="উদাহরণ: 10">
@@ -94,7 +94,6 @@
     <option value="custom">Custom Rate</option>
   </select>
 
-  <!-- Custom Rate Input Box -->
   <div id="customBox" style="display:none;">
     <label>Custom রেইট দিন:</label>
     <input id="customRate" type="number" placeholder="যেমনঃ 148">
@@ -106,7 +105,6 @@
   <button id="copyBtn" style="display:none;" onclick="copySummary()">ক্লায়েন্টকে দেওয়ার জন্য কপি করুন</button>
 
 </div>
-
 
 <script>
 
@@ -134,6 +132,7 @@ function calc() {
   let usd = parseFloat(document.getElementById('usd').value);
   let rateVal = document.getElementById('rate').value;
   let customRate = document.getElementById('customRate').value;
+  let rate;
 
   if(isNaN(usd) || usd<=0){
     alert("সঠিক ডলার এমাউন্ট দিন");
@@ -145,7 +144,6 @@ function calc() {
     return;
   }
 
-  // Custom rate priority
   if(rateVal === "custom"){
     if(!customRate || parseFloat(customRate)<=0){
       alert("Custom রেইট সঠিকভাবে দিন");
@@ -157,13 +155,17 @@ function calc() {
   }
 
   let taka = usd * rate;
-  let payable = taka * 1.015;
+
+  // 1.20% Charge
+  let payable = taka * 1.012;
+
   let decimalPart = payable - Math.floor(payable);
   let finalPayable = (decimalPart >= 0.30) ? Math.ceil(payable) : Math.floor(payable);
 
   let summaryText =
     "বিকাশ থেকে ব্যাংকে ট্রান্সফারের চার্জ সহ আপনার মোট বিলঃ " + usd + "$ × " + rate +
-    " + 1.50% = " + formatBDT(finalPayable) + " টাকা\n\n" +
+    " + 1.20% = " + formatBDT(finalPayable) + " টাকা\n\n" +
+
     "ডলার নেওয়ার জন্য নিম্নোক্ত বিকাশ পার্সোনাল নাম্বারে সেন্ড মানি/ক্যাশ ইন করে জানাবেন কাইন্ডলি:\n" +
     "01817316412\n\n" +
 
